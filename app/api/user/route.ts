@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from '@prisma/client';
-
-const client = new PrismaClient();
+import client from '@/db/index';
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
@@ -19,9 +17,11 @@ export async function POST(req: NextRequest) {
     })
 }
 
-export function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
+    const details = await client.user.findFirst({});
+
     return NextResponse.json({
-        name: 'narine',
-        email: 'narine420@gmail.com'
+        name: details?.username,
+        email: 'demo@demo.com'
     })
 }
